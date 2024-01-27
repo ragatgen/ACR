@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Prompt the user for the name of the Azure Container Registry (ACR)
+read -p "Enter the name of the Azure Container Registry (ACR): " acr_name
+
+# Perform nslookup to resolve the ACR hostname
+echo "Performing nslookup for ACR: $acr_name.azurecr.io"
+nslookup "$acr_name.azurecr.io"
+
+# Perform curl to test connectivity to the ACR
+echo "Performing curl to test connectivity to ACR: $acr_name.azurecr.io"
+curl -I "$acr_name.azurecr.io"
+
+# Check health of the ACR using az acr check-health
+echo "Checking health of the ACR: $acr_name"
+acr_health=$(az acr check-health --name "$acr_name" --ignore-errors --yes)
